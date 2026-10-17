@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AcadClaude – Trợ lý Claude ngay trong AutoCAD</title>
+  <meta name="description" content="Add-in cho AutoCAD 2021–2024: chat với Claude để đọc và vẽ trên bản vẽ đang mở, tab ribbon Kết Cấu, và điều khiển AutoCAD từ Claude Desktop qua MCP.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#noi-dung">Bỏ qua, tới nội dung chính</a>
+
+  <!-- ========== THANH ĐIỀU HƯỚNG ========== -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top" aria-label="AcadClaude, về đầu trang">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13"/><text x="16" y="16">A</text></svg>
+        AcadClaude
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav id="menu" class="nav" aria-label="Điều hướng chính">
+        <a href="#tinh-nang">Tính năng</a>
+        <a href="#lenh">Lệnh ribbon</a>
+        <a href="#mcp">Claude Desktop</a>
+        <a href="#cai-dat">Cài đặt</a>
+        <a href="#hoi-dap">Hỏi đáp</a>
+        <a class="btn btn-small" href="#tai-ve">Tải về</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="noi-dung">
+
+    <!-- ========== PHẦN MỞ ĐẦU ========== -->
+    <section class="hero" id="top">
+      <div class="wrap hero-grid">
+        <div class="hero-text">
+          <h1>Gõ yêu cầu bằng tiếng Việt, Claude vẽ lên bản vẽ AutoCAD của bạn</h1>
+          <p class="lead">AcadClaude là add-in cho AutoCAD 2021–2024. Bạn mô tả việc cần làm trong khung chat, Claude đọc bản vẽ đang mở rồi tạo layer, vẽ lưới trục, đặt cột, ghi chú. Mỗi thao tác vẫn hoàn tác được bằng lệnh <kbd>U</kbd> như bình thường.</p>
+          <div class="actions">
+            <a class="btn" href="#tai-ve">Tải bản cho AutoCAD 2022</a>
+            <a class="btn btn-ghost" href="#cai-dat">Xem cách cài đặt</a>
+          </div>
+          <p class="fine">Phần chat cần Anthropic API key. Các nút trên ribbon dùng được không cần key.</p>
+        </div>
+
+        <figure class="sheet" aria-label="Ví dụ: yêu cầu và bản vẽ Claude tạo ra">
+          <div class="chat">
+            <p class="msg msg-user"><span class="who">Bạn</span>Vẽ 4 trục dọc cách 6000, 3 trục ngang cách 5500, cột 400x400 tại các giao điểm.</p>
+          </div>
+          <svg class="plan" viewBox="0 0 480 330" role="img" aria-labelledby="plan-title"><title id="plan-title">Mặt bằng lưới trục 4 x 3 với 12 cột tại các giao điểm, do Claude vẽ</title><g class="dim"><line x1="120" y1="24" x2="420" y2="24"/><line x1="120" y1="19" x2="120" y2="29"/><line x1="220" y1="19" x2="220" y2="29"/><line x1="320" y1="19" x2="320" y2="29"/><line x1="420" y1="19" x2="420" y2="29"/><text x="170" y="17">6000</text><text x="270" y="17">6000</text><text x="370" y="17">6000</text></g><line class="axis" style="--i:0" x1="120" y1="40" x2="120" y2="282"/><line class="axis" style="--i:1" x1="220" y1="40" x2="220" y2="282"/><line class="axis" style="--i:2" x1="320" y1="40" x2="320" y2="282"/><line class="axis" style="--i:3" x1="420" y1="40" x2="420" y2="282"/><line class="axis" style="--i:4" x1="92" y1="70" x2="448" y2="70"/><line class="axis" style="--i:5" x1="92" y1="162" x2="448" y2="162"/><line class="axis" style="--i:6" x1="92" y1="254" x2="448" y2="254"/><g class="bubble" style="--i:0"><circle cx="120" cy="300" r="14"/><text x="120" y="300">1</text></g><g class="bubble" style="--i:1"><circle cx="220" cy="300" r="14"/><text x="220" y="300">2</text></g><g class="bubble" style="--i:2"><circle cx="320" cy="300" r="14"/><text x="320" y="300">3</text></g><g class="bubble" style="--i:3"><circle cx="420" cy="300" r="14"/><text x="420" y="300">4</text></g><g class="bubble" style="--i:4"><circle cx="74" cy="70" r="14"/><text x="74" y="70">C</text></g><g class="bubble" style="--i:5"><circle cx="74" cy="162" r="14"/><text x="74" y="162">B</text></g><g class="bubble" style="--i:6"><circle cx="74" cy="254" r="14"/><text x="74" y="254">A</text></g><rect class="col" style="--i:0" x="114" y="64" width="12" height="12"/><rect class="col" style="--i:1" x="214" y="64" width="12" height="12"/><rect class="col" style="--i:2" x="314" y="64" width="12" height="12"/><rect class="col" style="--i:3" x="414" y="64" width="12" height="12"/><rect class="col" style="--i:4" x="114" y="156" width="12" height="12"/><rect class="col" style="--i:5" x="214" y="156" width="12" height="12"/><rect class="col" style="--i:6" x="314" y="156" width="12" height="12"/><rect class="col" style="--i:7" x="414" y="156" width="12" height="12"/><rect class="col" style="--i:8" x="114" y="248" width="12" height="12"/><rect class="col" style="--i:9" x="214" y="248" width="12" height="12"/><rect class="col" style="--i:10" x="314" y="248" width="12" height="12"/><rect class="col" style="--i:11" x="414" y="248" width="12" height="12"/></svg>
+          <div class="chat">
+            <p class="msg msg-claude"><span class="who">Claude</span>Đã vẽ 7 trục trên layer S-GRID và 12 cột trên layer S-COLS.</p>
+          </div>
+          <figcaption class="title-block">
+            <span>Mặt bằng lưới trục</span>
+            <span>Bản vẽ minh họa</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ========== A. TÍNH NĂNG ========== -->
+    <section class="section" id="tinh-nang" aria-labelledby="h-tinh-nang">
+      <div class="wrap">
+        <h2 id="h-tinh-nang"><span class="axis-tag" aria-hidden="true">A</span>Ba cách làm việc với bản vẽ</h2>
+        <div class="features">
+          <article class="feature">
+            <h3>Chat ngay trong AutoCAD</h3>
+            <p>Gõ <code>CLAUDE</code> để mở palette. Claude dùng các tool đọc và vẽ trên bản vẽ đang mở, và mỗi lần gọi tool đều hiện trong khung chat để bạn theo dõi.</p>
+            <p class="example">“Đếm số polyline trên layer S-COLS”</p>
+          </article>
+          <article class="feature">
+            <h3>Tab ribbon Kết Cấu</h3>
+            <p>Các lệnh vẽ nhanh không cần AI: lưới trục có bubble và dim, cột tại giao trục, bộ layer chuẩn, đếm đối tượng, cộng diện tích.</p>
+            <p class="example">Bước trục nhập kiểu <code>3*6000,8000</code></p>
+          </article>
+          <article class="feature">
+            <h3>Điều khiển từ Claude Desktop</h3>
+            <p>Bật cổng MCP để Claude Desktop hoặc Claude Code dùng chung bộ tool, làm việc với AutoCAD ngay từ cửa sổ chat quen thuộc.</p>
+            <p class="example">Tool mới viết trong add-in tự xuất hiện</p>
+          </article>
+        </div>
+
+        <div class="control">
+          <h3>Bạn luôn là người quyết định</h3>
+          <ul>
+            <li>Claude mô tả và chờ bạn xác nhận trước khi xóa đối tượng.</li>
+            <li>Mỗi lần gọi tool là một bước Undo riêng, gõ <kbd>U</kbd> để quay lại.</li>
+            <li>Chỉ nội dung bạn chat và kết quả của tool (tên layer, tọa độ, text) được gửi tới Anthropic API. File bản vẽ không bị tải lên.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== B. LỆNH RIBBON ========== -->
+    <section class="section section-alt" id="lenh" aria-labelledby="h-lenh">
+      <div class="wrap">
+        <h2 id="h-lenh"><span class="axis-tag" aria-hidden="true">B</span>Lệnh trên ribbon</h2>
+        <p class="section-intro">Sau khi nạp add-in, AutoCAD có thêm hai tab. Gõ tên lệnh ở command line cũng chạy được.</p>
+        <div class="table-scroll">
+          <table class="cmd-table">
+            <thead>
+              <tr><th scope="col">Tab</th><th scope="col">Nút</th><th scope="col">Lệnh</th><th scope="col">Việc nó làm</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Claude AI</td><td>Chat Claude</td><td><code>CLAUDE</code></td><td>Mở palette chat và tab chạy thử tool</td></tr>
+              <tr><td>Claude AI</td><td>API key</td><td><code>CLAUDEKEY</code></td><td>Nhập hoặc đổi Anthropic API key</td></tr>
+              <tr><td>Claude AI</td><td>Đổi model</td><td><code>CLAUDEMODEL</code></td><td>Chọn model Claude dùng cho chat</td></tr>
+              <tr><td>Claude AI</td><td>Bật/tắt MCP</td><td><code>CLAUDEMCP</code></td><td>Mở hoặc đóng cổng cho Claude Desktop</td></tr>
+              <tr><td>Kết Cấu</td><td>Lưới trục</td><td><code>AC_GRID</code></td><td>Vẽ trục, bubble, tên trục 1-2-3 / A-B-C, dim chi tiết và dim tổng</td></tr>
+              <tr><td>Kết Cấu</td><td>Cột tại giao trục</td><td><code>AC_COLS</code></td><td>Chọn các đường trục, đặt cột b x h có hatch tại mọi giao điểm</td></tr>
+              <tr><td>Kết Cấu</td><td>Bộ layer KC</td><td><code>AC_LAYERS</code></td><td>Tạo S-GRID, S-COLS, S-BEAM, S-WALL, S-SLAB, S-ANNO, S-DIMS</td></tr>
+              <tr><td>Kết Cấu</td><td>Đếm đối tượng</td><td><code>AC_COUNT</code></td><td>Đếm đối tượng đã chọn theo layer và loại</td></tr>
+              <tr><td>Kết Cấu</td><td>Tổng diện tích</td><td><code>AC_AREA</code></td><td>Cộng diện tích vùng kín, ra mm² và m²</td></tr>
+              <tr><td>Kết Cấu</td><td>Font tiếng Việt</td><td><code>AC_FONTVN</code></td><td>Đổi text style font .shx sang Arial để hiện đúng dấu</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== C. CLAUDE DESKTOP / MCP ========== -->
+    <section class="section" id="mcp" aria-labelledby="h-mcp">
+      <div class="wrap">
+        <h2 id="h-mcp"><span class="axis-tag" aria-hidden="true">C</span>Dùng AutoCAD từ Claude Desktop</h2>
+        <p class="section-intro">App nhỏ <code>AcadMcpBridge.exe</code> nối Claude Desktop với add-in đang chạy trong AutoCAD. Cổng chỉ mở trên máy của bạn và có token bảo vệ.</p>
+
+        <ol class="flow" aria-label="Đường đi của một yêu cầu">
+          <li><strong>Claude Desktop</strong><span>Bạn gõ yêu cầu</span></li>
+          <li><strong>AcadMcpBridge.exe</strong><span>Chuyển yêu cầu qua localhost:8765</span></li>
+          <li><strong>AutoCAD + AcadClaude</strong><span>Chạy tool trên bản vẽ đang mở</span></li>
+        </ol>
+
+        <p>Thêm vào <code>claude_desktop_config.json</code> (Settings, Developer, Edit Config), sửa đường dẫn cho đúng máy bạn:</p>
+        <div class="code-block">
+          <button class="copy-btn" type="button" data-copy="cfg-desktop">Copy</button>
+<pre id="cfg-desktop"><code>{
+  "mcpServers": {
+    "autocad": {
+      "command": "D:\\AI CAD\\AcadMcpBridge\\AcadMcpBridge.exe"
+    }
+  }
+}</code></pre>
+        </div>
+        <p>Dùng Claude Code thì chỉ cần một lệnh:</p>
+        <div class="code-block">
+          <button class="copy-btn" type="button" data-copy="cfg-code">Copy</button>
+<pre id="cfg-code"><code>claude mcp add autocad -- "D:\AI CAD\AcadMcpBridge\AcadMcpBridge.exe"</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== D. CÀI ĐẶT ========== -->
+    <section class="section section-alt" id="cai-dat" aria-labelledby="h-cai-dat">
+      <div class="wrap">
+        <h2 id="h-cai-dat"><span class="axis-tag" aria-hidden="true">D</span>Cài đặt trong 5 bước</h2>
+        <ol class="steps">
+          <li>
+            <h3>Tải và giải nén</h3>
+            <p>Chuột phải vào file zip, chọn Properties, tích <em>Unblock</em> rồi mới giải nén. Nếu bỏ qua bước này, Windows sẽ chặn DLL và AutoCAD không nạp được.</p>
+          </li>
+          <li>
+            <h3>Nạp vào AutoCAD</h3>
+            <p>Mở AutoCAD, gõ <code>NETLOAD</code> rồi chọn <code>AcadClaude.dll</code>. Các file <code>System.*.dll</code> đi kèm phải nằm cùng thư mục.</p>
+          </li>
+          <li>
+            <h3>Nhập API key</h3>
+            <p>Tạo key tại console.anthropic.com, sau đó gõ <code>CLAUDEKEY</code> và dán key vào. Bước này chỉ làm một lần.</p>
+          </li>
+          <li>
+            <h3>Mở palette và thử</h3>
+            <p>Gõ <code>CLAUDE</code>. Ở tab Tools, chạy thử <code>get_drawing_info</code>. Ở tab Chat, gõ một yêu cầu bất kỳ.</p>
+          </li>
+          <li>
+            <h3>Tự nạp khi mở AutoCAD</h3>
+            <p>Chép thư mục <code>AcadClaude.bundle</code> vào <code>%APPDATA%\Autodesk\ApplicationPlugins\</code> để khỏi phải NETLOAD mỗi lần.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ========== E. TẢI VỀ ========== -->
+    <section class="section" id="tai-ve" aria-labelledby="h-tai-ve">
+      <div class="wrap">
+        <h2 id="h-tai-ve"><span class="axis-tag" aria-hidden="true">E</span>Tải về</h2>
+        <div class="download">
+          <div class="download-row">
+            <div>
+              <h3>AutoCAD 2021, 2022, 2023, 2024</h3>
+              <p>Phiên bản 0.1.0, dùng .NET Framework 4.8. Gồm mã nguồn add-in và AcadMcpBridge.</p>
+            </div>
+            <a class="btn" href="downloads/AcadClaude_CAD2022.zip" download>Tải file zip</a>
+          </div>
+          <div class="download-row download-row-muted">
+            <div>
+              <h3>AutoCAD 2025 trở lên</h3>
+              <p>Cần build lại với .NET 8. Đang chuẩn bị.</p>
+            </div>
+            <span class="badge">Sắp có</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== F. HỎI ĐÁP ========== -->
+    <section class="section section-alt" id="hoi-dap" aria-labelledby="h-hoi-dap">
+      <div class="wrap narrow">
+        <h2 id="h-hoi-dap"><span class="axis-tag" aria-hidden="true">F</span>Hỏi đáp</h2>
+        <details>
+          <summary>Dùng có mất phí không?</summary>
+          <p>Add-in miễn phí. Phần chat gọi Anthropic API, tính phí theo lượng dùng trên tài khoản API của bạn và tách biệt với gói Claude.ai Pro/Max. Bấm “Hội thoại mới” khi chuyển việc để tiết kiệm.</p>
+        </details>
+        <details>
+          <summary>File bản vẽ của tôi có bị gửi lên mạng không?</summary>
+          <p>Không. Chỉ câu bạn chat và kết quả mà tool trả về (tên layer, tọa độ, nội dung text) được gửi tới Anthropic API. Với bản vẽ có yêu cầu bảo mật của chủ đầu tư, hãy cân nhắc trước khi dùng phần chat.</p>
+        </details>
+        <details>
+          <summary>Chữ tiếng Việt hiện thành dấu hỏi</summary>
+          <p>Text style đang dùng font .shx. Bấm nút Font tiếng Việt trên tab Kết Cấu (lệnh <code>AC_FONTVN</code>) để đổi sang Arial.</p>
+        </details>
+        <details>
+          <summary>NETLOAD báo “Cannot load assembly”</summary>
+          <p>File bị Windows chặn. Unblock file zip, giải nén lại, rồi NETLOAD lần nữa.</p>
+        </details>
+        <details>
+          <summary>Tôi có tự viết thêm lệnh được không?</summary>
+          <p>Được. Mỗi lệnh là một hàm C#. Gắn thêm <code>[RibbonButton]</code> thì lệnh có nút trên ribbon, viết class kế thừa <code>ToolBase</code> thì Claude dùng được ngay. Xem file README trong mã nguồn.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>AcadClaude phiên bản 0.1.0, cập nhật năm <span data-year>2026</span>.</p>
+      <p class="fine">AutoCAD là nhãn hiệu của Autodesk. Claude là nhãn hiệu của Anthropic. AcadClaude là dự án độc lập, không phải sản phẩm của hai công ty này.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
